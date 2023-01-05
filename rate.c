@@ -9,13 +9,16 @@ struct pets
     short rating;
 };
 
+float estimate(int, int);
+
 int main()
 {
-    int i, no = 7, r1, r2, power, choice, e1, e2, k=16; //r1,r2 are randon integers for faceoff.. choice = user choice.. e1,e2 = estimated scores for pets.. k = elo constant..
+    int i, j, no = 7, r1, r2, choice, k=32, exchange; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
+    float e1, e2; //e1,e2 = estimated scores for pets..
     char petNames[7][8]= {
         {"Cat"},{"Dog"},{"Bird"},{"Rabbit"},{"Rat"},{"Penguin"},{"Bear"}
     };
-    struct pets pet[no];
+    struct pets pet[no],temp;
 
     for (i=0; i<no; i++)
     {
@@ -23,31 +26,66 @@ int main()
         pet[i].rating = 400;
     }
 
-    printf("Choose between one : \n");
+    printf("Choose one between them : \n");
     for(i=0; i<5; i++)
     {
-        r1= rand()%no;
+        //generate two random face off opponents
+        r1= rand()%no; 
         r2= rand()%no;
-        printf("1.) %s\t\t2.) %s\n",pet[r1],pet[r2]);
-        scanf("%d", &choice);
-        power= pow(10,(pet[r2].rating-pet[r1].rating)/400);
-        e1 = 1/(1+power);
-        power= pow(10,(pet[r1].rating-pet[r2].rating)/400);
-        e2 = 1/(1+power);
-        printf("%d\t%d\n",power,e2);
-        if(choice==1)
+
+        printf("1.) %s\t\t2.) %s\n",pet[r1],pet[r2]);        //display the opponents
+        do      // ask for input until its 1 or 2
         {
-            pet[r2].rating=pet[r2].rating-k*(e2);
-            pet[r1].rating+=k*(1-e1);
+            scanf("%d", &choice);
+        } while (choice != 1 && choice != 2);
+
+        e1 = estimate(pet[r1].rating, pet[r2].rating); // estimate the scores
+        e2 = 1-e1;
+
+
+        if(choice==1) // exchange the points between loser and winner
+        {
+            exchange = k*(1-e1);
+            pet[r1].rating += exchange;
+            pet[r2].rating -= exchange;
         }
         else
         {
-            pet[r2].rating+=k*(1-e2);
-            pet[r1].rating=pet[r1].rating-k*(e1);
+            exchange = k*(1-e2);
+            pet[r1].rating -= exchange;
+            pet[r2].rating += exchange;
         }
     }
-    for (i=0; i<no; i++)
+
+    for (i=0; i<no; i++)    //sort the winners
     {
-        printf("The current ratings stand as : %d for %s.\n", pet[i].rating, pet[i].petName);
+        for(j=i;j<no;j++)
+        {
+            if (pet[i].rating< pet[j].rating)
+            {
+                temp= pet[i];
+                pet[i]=pet[j];
+                pet[j]=temp;
+            }
+        }
     }
+
+    printf("The winnnnnnerr iss %s with a total score of %d\n", pet[0].petName, pet[0].rating); //print the winner
+
+    //display the sorted final scores.
+    printf("The sorted order stands as : \n");
+    for (i=0; i<no; i++)    
+    {
+        printf(" %-8s : %d\n", pet[i].petName, pet[i].rating);
+    }
+}
+
+float estimate (int r1, int r2)    // based on formulas for elo rating
+{
+    float x,y,z,result;
+    x = ((float)r2-r1)/400;
+    y = pow(10,x);
+    z = 1+y;
+    result = 1/z;
+    return result;
 }
