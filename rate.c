@@ -108,6 +108,7 @@ int main()
         printf(" %-8s : %d\n", pet[i].petName, pet[i].rating);
     }
 
+    return 0;
 
 }
 
