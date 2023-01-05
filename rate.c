@@ -26,7 +26,7 @@ int main()
     ratings=fopen("ratings.bin","rb");
     if (ratings == NULL)
     {
-        printf("Since we did not find any initial ratings, so please create a new database of ratings using createDB.\n");
+        printf("Since we did not find any initial ratings, please create a new database of ratings using createDB.\n");
         return 1;
     }
     
@@ -51,7 +51,7 @@ int main()
             r2= rand()%no;
         } while(r2 == r1);
 
-        printf("1.) %s\t\t2.) %s\t\t3.)Quit\n",pet[r1],pet[r2]);        //display the opponents
+        printf("1.) %s\t\t2.) %s\t\t3.)Quit\n",pet[r1],pet[r2]);        // display the opponents
         do      // ask for input until its 1 or 2
         {
             scanf("%d", &choice);
@@ -86,7 +86,7 @@ int main()
         fwrite(&pet[i].rating, sizeof(pet[i].rating),1,ratings);
     }
 
-    for (i=0; i<no; i++)    //sort the winners
+    for (i=0; i<no; i++)    // sort the winners
     {
         for(j=i;j<no;j++)
         {
@@ -99,9 +99,9 @@ int main()
         }
     }
 
-    printf("The winnnnnnerr iss %s with a total score of %d\n", pet[0].petName, pet[0].rating); //print the winner
+    printf("The winnnnnnerr iss %s with a total score of %d\n", pet[0].petName, pet[0].rating); // print the winner
 
-    //display the sorted final scores.
+    // display the sorted final scores.
     printf("The sorted order stands as : \n");
     for (i=0; i<no; i++)    
     {
