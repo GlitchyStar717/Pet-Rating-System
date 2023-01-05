@@ -20,25 +20,47 @@ int main()
     };
     struct pets pet[no],temp;
 
+    FILE *ratings;
+    
+    
+    ratings=fopen("ratings.bin","rb");
+    if (ratings == NULL)
+    {
+        printf("Since we did not find any initial ratings, so please create a new database of ratings using createDB.\n");
+        return 1;
+    }
+    
+    for(i=0;i<no;i++)
+    {
+        fread(&pet[i].rating, sizeof(pet[i].rating),1,ratings);
+    }
+
+
     for (i=0; i<no; i++)
     {
         strcpy(pet[i].petName,petNames[i]);
-        pet[i].rating = 400;
     }
 
     printf("Choose one between them : \n");
-    for(i=0; i<5; i++)
+    while(1==1)
     {
         //generate two random face off opponents
         r1= rand()%no; 
-        r2= rand()%no;
+        do
+        {
+            r2= rand()%no;
+        } while(r2 == r1);
 
-        printf("1.) %s\t\t2.) %s\n",pet[r1],pet[r2]);        //display the opponents
+        printf("1.) %s\t\t2.) %s\t\t3.)Quit\n",pet[r1],pet[r2]);        //display the opponents
         do      // ask for input until its 1 or 2
         {
             scanf("%d", &choice);
-        } while (choice != 1 && choice != 2);
+        } while (choice != 1 && choice != 2 && choice != 3);
 
+        if(choice == 3)
+        {
+            break;
+        }
         e1 = estimate(pet[r1].rating, pet[r2].rating); // estimate the scores
         e2 = 1-e1;
 
@@ -55,6 +77,13 @@ int main()
             pet[r1].rating -= exchange;
             pet[r2].rating += exchange;
         }
+    }
+
+        ratings=fopen("ratings.bin","wb");
+    
+    for(i=0;i<no;i++)
+    {
+        fwrite(&pet[i].rating, sizeof(pet[i].rating),1,ratings);
     }
 
     for (i=0; i<no; i++)    //sort the winners
@@ -78,6 +107,8 @@ int main()
     {
         printf(" %-8s : %d\n", pet[i].petName, pet[i].rating);
     }
+
+
 }
 
 float estimate (int r1, int r2)    // based on formulas for elo rating
