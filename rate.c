@@ -13,7 +13,8 @@ float estimate(int, int);
 
 int main()
 {
-    int i, j, no = 7, r1, r2, choice, k=32, exchange; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
+    int i, j, no = 7, r1, r2, k=32, exchange; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
+    char choice;
     float e1, e2; //e1,e2 = estimated scores for pets..
     char petNames[7][8]= {
         {"Cat"},{"Dog"},{"Bird"},{"Rabbit"},{"Rat"},{"Penguin"},{"Bear"}
@@ -45,19 +46,23 @@ int main()
     while(1==1)
     {
         //generate two random face off opponents
-        r1= rand()%no; 
-        do
+        r1= rand()%no;
+        r2= rand()%no;
+ 
+        while(r2 == r1)
         {
             r2= rand()%no;
-        } while(r2 == r1);
+        }
 
         printf("1.) %s\t\t2.) %s\t\t3.)Quit\n",pet[r1],pet[r2]);        //display the opponents
-        do      // ask for input until its 1 or 2
+        scanf(" %c", &choice);
+        while (choice != '1' && choice != '2' && choice != '3')      // ask for input until its 1 or 2 or 3
         {
-            scanf("%d", &choice);
-        } while (choice != 1 && choice != 2 && choice != 3);
+            printf("Please re enter the option from 1 to 3.");
+            scanf(" %c", &choice);
+        }
 
-        if(choice == 3)
+        if(choice == '3')
         {
             break;
         }
@@ -65,7 +70,7 @@ int main()
         e2 = 1-e1;
 
 
-        if(choice==1) // exchange the points between loser and winner
+        if(choice=='1') // exchange the points between loser and winner
         {
             exchange = k*(1-e1);
             pet[r1].rating += exchange;
