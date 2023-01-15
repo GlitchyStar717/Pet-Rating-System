@@ -9,12 +9,10 @@ float estimate(int, int);
 
 int main()
 {
-    int i, j, no=3, r1, r2, k=32, exchange,sizeName=10; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
+    int i, j, no, r1, r2, k=32, exchange,sizeName=10; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
     char choice;
     float e1, e2; //e1,e2 = estimated scores for pets..
-    // char petNames[7][8]= {
-    //     {"Cat"},{"Dog"},{"Bird"},{"Rabbit"},{"Rat"},{"Penguin"},{"Bear"}
-    // };
+    
     struct pets pet[no],temp;
 
     FILE *ratings;
@@ -29,18 +27,14 @@ int main()
         MessageBox(FindWindowA("ConsoleWindowClass",NULL),"Please Create DB first using MakeDBinitially.exe","ERROR 717",MB_OK);
         return 1;
     }
-    
+    fread(&no, sizeof(int),1,ratings);
+
     for(i=0;i<no;i++)
     {
         fread(&pet[i].rating, sizeof(pet[i].rating),1,ratings);
         fread(&pet[i].petName, sizeName,1,ratings);
     }
 
-
-    // for (i=0; i<no; i++)
-    // {
-    //     strcpy(pet[i].petName,petNames[i]);
-    // }
 
     printf("Choose one between them : \n");
     while(1==1)
@@ -115,8 +109,6 @@ int main()
         printf(" %-8s : %d\n", pet[i].petName, pet[i].rating);
     }
     Sleep(10000);
-    // AllocConsole();
-    // MessageBox(FindWindowA("ConsoleWindowClass",NULL),"Please Create DB first using MakeDBinitially.exe","ERROR 717",MB_OK);
     
     fclose(ratings);    
     return 0;

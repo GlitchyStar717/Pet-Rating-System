@@ -27,7 +27,8 @@ int main()
 
     ratings=fopen("ratings.bin","wb");
 
-    
+    fwrite(&no, sizeof(int),1,ratings);
+
     pet[0].rating=400;
     for(i=0;i<no;i++)
     {   
