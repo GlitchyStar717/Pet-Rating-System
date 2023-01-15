@@ -14,9 +14,7 @@ int main()
     if (ratings != NULL)
     {
         printf("There is already a database \"ratings.bin\" that exists . Please copy it or rename to run this program..\n");
-        Sleep(10000);
-        AllocConsole();
-        MessageBox(FindWindowA("ConsoleWindowClass",NULL),"There is already a database \"ratings.bin\" that exists . Please copy it or rename to run this program..\n","ERROR 717",MB_OK);
+        MessageBox(NULL, "Database already exists. Please, rename, relocate or delete the \"ratings.bin\" first and re run the program. Or use RatingApp.exe to rate.", "Error 77", MB_ICONERROR | MB_OK);
         return 1;
     }
 

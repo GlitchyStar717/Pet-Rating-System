@@ -22,9 +22,7 @@ int main()
     if (ratings == NULL)
     {
         printf("Since we did not find any initial ratings, so please create a new database of ratings using MakeDBinitially.\n");
-        Sleep(10000);
-        AllocConsole();
-        MessageBox(FindWindowA("ConsoleWindowClass",NULL),"Please Create DB first using MakeDBinitially.exe","ERROR 717",MB_OK);
+        MessageBox(NULL, "No database was found. Please create a initial database using MakeDBinitially.exe", "Error 717", MB_ICONERROR | MB_OK);
         return 1;
     }
     fread(&no, sizeof(int),1,ratings);
