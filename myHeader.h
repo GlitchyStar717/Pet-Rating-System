@@ -1,5 +1,5 @@
 struct pets
 {
-    char petName[8];
+    char petName[11];
     short rating;
 };

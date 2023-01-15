@@ -9,12 +9,12 @@ float estimate(int, int);
 
 int main()
 {
-    int i, j, no = 7, r1, r2, k=32, exchange; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
+    int i, j, no=3, r1, r2, k=32, exchange,sizeName=10; //r1,r2 are randon integers for faceoff.. choice = user choice..  k = elo constant.. excahnge = point that is exchanged after each battle
     char choice;
     float e1, e2; //e1,e2 = estimated scores for pets..
-    char petNames[7][8]= {
-        {"Cat"},{"Dog"},{"Bird"},{"Rabbit"},{"Rat"},{"Penguin"},{"Bear"}
-    };
+    // char petNames[7][8]= {
+    //     {"Cat"},{"Dog"},{"Bird"},{"Rabbit"},{"Rat"},{"Penguin"},{"Bear"}
+    // };
     struct pets pet[no],temp;
 
     FILE *ratings;
@@ -23,7 +23,7 @@ int main()
     ratings=fopen("ratings.bin","rb");
     if (ratings == NULL)
     {
-        printf("Since we did not find any initial ratings, so please create a new database of ratings using createDB.\n");
+        printf("Since we did not find any initial ratings, so please create a new database of ratings using MakeDBinitially.\n");
         Sleep(10000);
         AllocConsole();
         MessageBox(FindWindowA("ConsoleWindowClass",NULL),"Please Create DB first using MakeDBinitially.exe","ERROR 717",MB_OK);
@@ -33,13 +33,14 @@ int main()
     for(i=0;i<no;i++)
     {
         fread(&pet[i].rating, sizeof(pet[i].rating),1,ratings);
+        fread(&pet[i].petName, sizeName,1,ratings);
     }
 
 
-    for (i=0; i<no; i++)
-    {
-        strcpy(pet[i].petName,petNames[i]);
-    }
+    // for (i=0; i<no; i++)
+    // {
+    //     strcpy(pet[i].petName,petNames[i]);
+    // }
 
     printf("Choose one between them : \n");
     while(1==1)
@@ -57,7 +58,7 @@ int main()
         scanf(" %c", &choice);
         while (choice != '1' && choice != '2' && choice != '3')      // ask for input until its 1 or 2 or 3
         {
-            printf("Please re enter the option from 1 to 3.");
+            printf("Please re enter the option from 1 to 3.\n");
             scanf(" %c", &choice);
         }
 
@@ -89,6 +90,7 @@ int main()
     for(i=0;i<no;i++)
     {
         fwrite(&pet[i].rating, sizeof(pet[i].rating),1,ratings);
+        fwrite(&pet[i].petName,sizeName,1,ratings);
     }
 
     for (i=0; i<no; i++)    //sort the winners
@@ -112,9 +114,13 @@ int main()
     {
         printf(" %-8s : %d\n", pet[i].petName, pet[i].rating);
     }
-
+    Sleep(10000);
+    // AllocConsole();
+    // MessageBox(FindWindowA("ConsoleWindowClass",NULL),"Please Create DB first using MakeDBinitially.exe","ERROR 717",MB_OK);
+    
+    fclose(ratings);    
     return 0;
-    fclose(ratings);
+    
 
 }
 
