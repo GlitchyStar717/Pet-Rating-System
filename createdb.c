@@ -1,12 +1,5 @@
 #include<stdio.h>
-
-struct pets
-{
-    char petName[8];
-    short rating;
-};
-
-float estimate(int, int);
+#include "myHeader.h"
 
 int main()
 {

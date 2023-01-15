@@ -2,12 +2,8 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
-
-struct pets
-{
-    char petName[8];
-    short rating;
-};
+#include<windows.h>
+#include "myHeader.h"
 
 float estimate(int, int);
 
@@ -28,6 +24,9 @@ int main()
     if (ratings == NULL)
     {
         printf("Since we did not find any initial ratings, so please create a new database of ratings using createDB.\n");
+        Sleep(10000);
+        AllocConsole();
+        MessageBox(FindWindowA("ConsoleWindowClass",NULL),"Please Create DB first using MakeDBinitially.exe","ERROR 717",MB_OK);
         return 1;
     }
     
@@ -84,6 +83,7 @@ int main()
         }
     }
 
+        fclose(ratings);
         ratings=fopen("ratings.bin","wb");
     
     for(i=0;i<no;i++)
@@ -114,6 +114,7 @@ int main()
     }
 
     return 0;
+    fclose(ratings);
 
 }
 
